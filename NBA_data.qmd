@@ -1,0 +1,23 @@
+```{python}
+import pandas as pd, json
+
+cols = ["MATCH UP", "GAME DATE", "W/L"]
+data = pd.read_csv("Lakers2009-2021.csv", usecols = cols)
+print(data.head())
+
+data.rename(columns = {
+    'MATCH\xa0UP' : 'Match_Up',
+    'GAME\xa0DATE' : 'Game_Date'
+}, inplace=True)
+
+def home_away(x):
+    x = x.strip().lower()
+    if "vs." in x:
+        return "Home"
+    elif "@" in x: 
+        return "Away"
+
+data["Home/Away"] = data["Match_Up"].apply(home_away)
+
+print(data.head())
+```
